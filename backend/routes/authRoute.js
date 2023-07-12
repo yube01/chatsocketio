@@ -8,7 +8,7 @@ const router = express.Router()
 
 router.post("/login", login)
 router.post("/register", register)
-router.get("/allUser",protect(allUser))
+router.get("/allUser",(protect,allUser))
 
 
 export default router

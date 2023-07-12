@@ -70,7 +70,7 @@ export const allUser = async(req,res)=>{
     ]
   }: {}
 
-  const user = await model.find(keyword)
+  const user = await model.find(keyword).find({_id:{$ne: req.user._id}})
   res.status(200).send(user)
 
 }
