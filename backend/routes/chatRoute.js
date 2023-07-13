@@ -7,7 +7,7 @@ import { protect } from "../middleware/authMiddleware.js";
 const router = Express.Router()
 
 
-router.post("/", (protect,accessChat))
+router.post("/access", (protect,accessChat))
 
 
 export default router

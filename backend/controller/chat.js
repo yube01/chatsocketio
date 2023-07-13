@@ -1,5 +1,5 @@
 import {Chat} from "../model/chat.js" 
-
+import {model} from "../model/user.js"
 
 
 export const accessChat = async(req,res)=>{
@@ -23,7 +23,7 @@ export const accessChat = async(req,res)=>{
     .populate("latestMessage")
     
 
-    isChat = await User.populate(isChat,{
+    isChat = await model.populate(isChat,{
         path:"latestMessage.sender",
         select:"name email"
     })
