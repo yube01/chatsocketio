@@ -1,14 +1,19 @@
+import { useContext } from "react"
 import ChatOnline from "../components/ChatOnline"
 import Conversation from "../components/Conversation"
 import Message from "../components/Message"
 import Topbar from "../components/Topbar"
 import "../components/componentStyle.css"
+import { AuthContext } from "../context/AuthContext"
 
 
  
 const Home = () => {
 
 
+  const {user} = useContext(AuthContext)
+
+  console.log(user)
 
 
 

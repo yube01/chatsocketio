@@ -6,6 +6,9 @@ import mongoose from "mongoose"
 import http from "http"
 import {Server} from "socket.io"
 import chatRoute from "./routes/chatRoute.js"
+import convRoute from "./routes/conversationRoute.js"
+import msgRoute from "./routes/messageRoute.js"
+
 
 dotenv.config()
 
@@ -25,6 +28,8 @@ app.use(express.json())
 
 app.use("/auth", authRoute)
 app.use("/auth", chatRoute)
+app.use("/auth/conv", convRoute)
+app.use("/auth/msg", msgRoute)
 
 
 const server = http.createServer(app)

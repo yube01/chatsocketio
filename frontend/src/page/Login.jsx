@@ -1,10 +1,13 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 
 import {useNavigate} from "react-router-dom"
+import { AuthContext } from "../context/AuthContext"
 
 const Login = () => {
   const [ username, setUsername] = useState("")
   const [password ,setPassword] = useState("")
+ 
+  const {dispatch} = useContext(AuthContext)
 
   const navigate = useNavigate()
 
@@ -31,6 +34,7 @@ const Login = () => {
     if(data === "Password incorrect" || data === "User isn't created"){
       return console.log(data)
     }else{
+      dispatch
       navigate("/")
     }
     
