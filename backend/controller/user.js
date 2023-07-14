@@ -8,7 +8,7 @@ export const login = async(req,res)=>{
 
     // finding user name in database
 const user = await model.findOne({username:req.body.username})
-if(!user) return res.json("User isn't created")
+if(!user) return res.status(404).json("User isn't created")
 
 
 // matching password with user name which is already stored in database
@@ -49,8 +49,8 @@ export const register = async(req,res) =>{
     const newUser = new model ({...req.body , password:hash});
 
 // saving data to mongodb
- await newUser.save()
- res.status(200).send("User has been created!!")
+ const user = await newUser.save()
+ res.status(200).send("User created")
 }
 catch(error){
     console.log(error)
