@@ -35,7 +35,20 @@ const Home = () => {
 
   },[user._id])
 
-  console.log(currentChat)
+
+  useEffect(()=>{
+    const getMsg = async()=>{
+      try {
+        const res = await axois.get("http://localhost:8080/auth/msg/" + currentChat?._id)
+        setMsg(res.data)
+        
+      } catch (error) {
+        console.log(error)
+        
+      }
+    }
+    getMsg()
+  },[currentChat])
 
 
 
@@ -48,7 +61,7 @@ const Home = () => {
           <div className="chatMenuWrapper">
             <input placeholder="Search for friends" className="chatMenuInput" />
            {conv.map((c)=>(
-                 <div onClick={setCurrentChat(c)}> 
+                 <div onClick={()=>setCurrentChat(c)}> 
                   <Conversation conv={c} currentUser = {user}/>
                   </div>
 
@@ -63,11 +76,11 @@ const Home = () => {
           {currentChat ? (
               <>
                 <div className="chatBoxTop">
-                  {/* {msg.map((m) => (
+                  {msg.map((m) => (
                     <div >
-                      <Message />
+                      <Message message={m} own={m.sender === user._id}/>
                     </div>
-                  ))} */}
+                  ))}
                 </div>
                 <div className="chatBoxBottom">
                   <textarea
