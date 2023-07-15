@@ -1,19 +1,42 @@
-import { useContext } from "react"
+import axois from "axios"
+import { useEffect, useState } from "react"
 import ChatOnline from "../components/ChatOnline"
 import Conversation from "../components/Conversation"
 import Message from "../components/Message"
 import Topbar from "../components/Topbar"
 import "../components/componentStyle.css"
-import { AuthContext } from "../context/AuthContext"
+
 
 
  
 const Home = () => {
 
 
-  const {user} = useContext(AuthContext)
 
-  console.log(user)
+  const [conv, setConv] = useState([])
+  const user = JSON.parse(localStorage.getItem("user")) || null
+  const[currentChat,setCurrentChat] = useState(null)
+  const[msg,setMsg] = useState([])
+
+
+
+  useEffect(()=>{
+    const getConv  = async ()=>{
+      try {
+        const response = await axois.get("http://localhost:8080/auth/conv/" + user._id)
+        setConv(response.data)
+      } catch (error) {
+        console.log(error)
+        
+      }
+
+    }
+    getConv()
+
+  },[user._id])
+
+  console.log(currentChat)
+
 
 
 
@@ -24,39 +47,44 @@ const Home = () => {
         <div className="chatMenu">
           <div className="chatMenuWrapper">
             <input placeholder="Search for friends" className="chatMenuInput" />
-           
-              <div>
-                <Conversation />
-              </div>
+           {conv.map((c)=>(
+                 <div onClick={setCurrentChat(c)}> 
+                  <Conversation conv={c} currentUser = {user}/>
+                  </div>
+
+           ))}
+            
            
           </div>
         </div>
         <div className="chatBox">
           <div className="chatBoxWrapper">
           
+          {currentChat ? (
               <>
                 <div className="chatBoxTop">
-                
+                  {/* {msg.map((m) => (
                     <div >
                       <Message />
                     </div>
-               
+                  ))} */}
                 </div>
                 <div className="chatBoxBottom">
                   <textarea
                     className="chatMessageInput"
                     placeholder="write something..."
-                    
+                  
                   ></textarea>
-                  <button className="chatSubmitButton" >
+                  <button className="chatSubmitButton">
                     Send
                   </button>
                 </div>
               </>
-          
+            ) : (
               <span className="noConversationText">
                 Open a conversation to start a chat.
               </span>
+            )}
             
           </div>
         </div>

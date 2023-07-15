@@ -2,10 +2,11 @@ import express from "express"
 import dotenv from "dotenv"
 import cors from "cors"
 import authRoute from "./routes/authRoute.js"
+import userRoute from "./routes/userRoute.js"
 import mongoose from "mongoose"
 import http from "http"
 import {Server} from "socket.io"
-import chatRoute from "./routes/chatRoute.js"
+// import chatRoute from "./routes/chatRoute.js"
 import convRoute from "./routes/conversationRoute.js"
 import msgRoute from "./routes/messageRoute.js"
 
@@ -27,9 +28,10 @@ app.use(cors())
 app.use(express.json())
 
 app.use("/auth", authRoute)
-app.use("/auth", chatRoute)
+// app.use("/auth", chatRoute)
 app.use("/auth/conv", convRoute)
 app.use("/auth/msg", msgRoute)
+app.use("/users",userRoute)
 
 
 const server = http.createServer(app)

@@ -1,52 +1,42 @@
-import { useContext, useRef} from "react"
+import { useState } from "react"
 
-// import {useNavigate} from "react-router-dom"
-import { loginCall } from "./apiCalls"
-import { AuthContext } from "../context/AuthContext"
+import {useNavigate} from "react-router-dom"
+
 
 const Login = () => {
-  // const [ username, setUsername] = useState("")
-  // const [password ,setPassword] = useState("")
+  const [ username, setUsername] = useState("")
+  const [password ,setPassword] = useState("")
  
-  
- 
-  const username = useRef()
-  const password = useRef()
-
-  const {user, isFetching,error,dispatch} = useContext(AuthContext)
 
 
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
 
 
   const handleLogin = async(e)=>{
     e.preventDefault()
-    loginCall({username:user.current.value, password:password.current.value}, dispatch)
-
-    console.log(user)
 
   try {
-    // const response = await fetch("http://localhost:8080/auth/login",{
-    //   method:'POST',
-    //   headers:{
+    const response = await fetch("http://localhost:8080/auth/login",{
+      method:'POST',
+      headers:{
 
-    //     'Content-Type':'application/json'
-    //   },
-    //   body: JSON.stringify({
-    //     username,
-    //     password
-    //   })
-    // })
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify({
+        username,
+        password
+      })
+    })
 
-  //   const data = await response.json()
+    const data = await response.json()
   
       
-  //   if(data === "Password incorrect" || data === "User isn't created"){
-  //     return console.log(data)
-  //   }else{
-      
-  //     navigate("/")
-  //   }
+    if(data === "Password incorrect" || data === "User isn't created"){
+      return console.log(data)
+    }else{
+      localStorage.setItem("user",JSON.stringify(data))
+      navigate("/")
+    }
     
   } catch (error) {
     console.log(error)
@@ -63,10 +53,10 @@ const Login = () => {
     <h1>Login</h1>
         <form onSubmit={handleLogin}>
 
-      <input type="text" placeholder="username" ref={username}  />
+      <input type="text" placeholder="username" value={username} onChange={(e)=>setUsername(e.target.value)} name="" id="" />
     
-      <input type="password" placeholder="password" ref={password} />
-      <input type="submit" value={isFetching ? "Loading" :"Log In"}/>
+      <input type="password" placeholder="password" value={password} onChange={(e)=>setPassword(e.target.value)} name="" id="" />
+      <input type="submit" value="Login"/>
         </form>
     </div>
   )
