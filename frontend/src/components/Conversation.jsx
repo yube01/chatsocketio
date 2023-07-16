@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import "./componentStyle.css"
+import "./conv.css"
 import axios from "axios"
 
 

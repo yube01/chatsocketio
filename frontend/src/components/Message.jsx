@@ -1,4 +1,4 @@
-import "./componentStyle.css"
+import "./msg.css"
 import {format} from "timeago.js"
 
 const Message = ({own,message}) => {

@@ -1,10 +1,11 @@
 import axois from "axios"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import ChatOnline from "../components/ChatOnline"
 import Conversation from "../components/Conversation"
 import Message from "../components/Message"
 import Topbar from "../components/Topbar"
-import "../components/componentStyle.css"
+
+import "./home.css"
 
 
 
@@ -17,6 +18,8 @@ const Home = () => {
   const user = JSON.parse(localStorage.getItem("user")) || null
   const[currentChat,setCurrentChat] = useState(null)
   const[msg,setMsg] = useState([])
+  const [newMsg,setNewMsg] = useState("")
+  const scrollRef = useRef()
 
 
 
@@ -50,12 +53,40 @@ const Home = () => {
     getMsg()
   },[currentChat])
 
+  const handleSubmit = async(e)=>{
+    e.preventDefault();
+
+    const message = {
+      sender:user._id,
+      text:newMsg,
+      conversationId:currentChat._id
+    }
+
+    try {
+
+      const res = await axois.post("http://localhost:8080/auth/msg",message)
+      setMsg([...msg,res.data])
+      setNewMsg("")
+      
+    } catch (error) {
+      console.log(error)
+      
+    }
+
+
+  }
+
+
+  useEffect(()=>{
+    scrollRef.current?.scrollIntoView({behavior:"smooth"})
+  },[msg])
+
 
 
 
   return (
     <div>
-     <Topbar />
+     {/* <Topbar /> */}
       <div className="messenger">
         <div className="chatMenu">
           <div className="chatMenuWrapper">
@@ -77,7 +108,8 @@ const Home = () => {
               <>
                 <div className="chatBoxTop">
                   {msg.map((m) => (
-                    <div >
+                    <div ref={scrollRef}>
+
                       <Message message={m} own={m.sender === user._id}/>
                     </div>
                   ))}
@@ -86,9 +118,11 @@ const Home = () => {
                   <textarea
                     className="chatMessageInput"
                     placeholder="write something..."
+                    onChange={(e)=>setNewMsg(e.target.value)}
+                    value={newMsg}
                   
                   ></textarea>
-                  <button className="chatSubmitButton">
+                  <button className="chatSubmitButton" onClick={handleSubmit}>
                     Send
                   </button>
                 </div>

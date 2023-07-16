@@ -1,5 +1,5 @@
-import "./componentStyle.css"
 
+import "./chatOn.css"
 
 
 const ChatOnline = () => {
