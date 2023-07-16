@@ -4,6 +4,7 @@ import ChatOnline from "../components/ChatOnline"
 import Conversation from "../components/Conversation"
 import Message from "../components/Message"
 import Topbar from "../components/Topbar"
+import {io} from "socket.io-client"
 
 import "./home.css"
 
@@ -20,6 +21,35 @@ const Home = () => {
   const[msg,setMsg] = useState([])
   const [newMsg,setNewMsg] = useState("")
   const scrollRef = useRef()
+  const [ arrivalMsg, setArrivalMsg] = useState(null)
+  const socket = useRef()
+
+  useEffect(() => {
+    socket.current = io("ws://localhost:8999");
+    socket.current.on("getMessage", (data) => {
+      setArrivalMsg({
+        sender: data.senderId,
+        text: data.text,
+        createdAt: Date.now(),
+      });
+    });
+  }, []);
+
+  useEffect(()=>{
+    socket.current.emit("addUser",user._id)
+    socket.current.on("getUser",(users)=>{
+      console.log(users)
+    })
+  },[user])
+
+
+
+  useEffect(() => {
+    arrivalMsg &&
+      currentChat?.members.includes(arrivalMsg.sender) &&
+      setMsg((prev) => [...prev, arrivalMsg]);
+  }, [arrivalMsg, currentChat]);
+
 
 
 
@@ -62,6 +92,16 @@ const Home = () => {
       conversationId:currentChat._id
     }
 
+    const receiverId = currentChat.members.find(
+      (member) => member !== user._id
+    );
+
+    socket.current.emit("sendMessage", {
+      senderId: user._id,
+      receiverId,
+      text: newMsg,
+    });
+
     try {
 
       const res = await axois.post("http://localhost:8080/auth/msg",message)
@@ -75,6 +115,7 @@ const Home = () => {
 
 
   }
+
 
 
   useEffect(()=>{
