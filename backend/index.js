@@ -19,7 +19,7 @@ const port = process.env.PORT
 const app = express()
 
 //connection
-mongoose.connect(process.env.MONGO)
+const db = mongoose.connect(process.env.MONGO)
 .then(()=>console.log("DB connected"))
 .catch((err)=> console.log(err))
 
@@ -35,6 +35,7 @@ app.use("/users",userRoute)
 
 
 const server = http.createServer(app)
+
 
 
 

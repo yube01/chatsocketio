@@ -1,4 +1,4 @@
-import axois from "axios"
+import axois, { all } from "axios"
 import React, { useEffect, useRef, useState } from "react"
 import ChatOnline from "../components/ChatOnline"
 import Conversation from "../components/Conversation"
@@ -7,6 +7,7 @@ import Topbar from "../components/Topbar"
 import {io} from "socket.io-client"
 
 import "./home.css"
+import axios from "axios"
 
 
 
@@ -22,6 +23,7 @@ const Home = () => {
   const [newMsg,setNewMsg] = useState("")
   const scrollRef = useRef()
   const [ arrivalMsg, setArrivalMsg] = useState(null)
+  const[allUser,setAllUser] = useState([])
   const socket = useRef()
 
   useEffect(() => {
@@ -83,6 +85,23 @@ const Home = () => {
     getMsg()
   },[currentChat])
 
+
+  useEffect(()=>{
+    const getUser = async()=>{
+      try {
+        const res = await axios.get("http://localhost:8080/auth/allUser")
+        setAllUser(res.data)
+        
+      } catch (error) {
+        console.log(error)
+        
+      }
+    }
+    getUser()
+
+  },[])
+  console.log(allUser)
+
   const handleSubmit = async(e)=>{
     e.preventDefault();
 
@@ -134,6 +153,11 @@ const Home = () => {
     <div>
      {/* <Topbar /> */}
      {user.username}
+     {allUser.map((a)=>{
+      <div className="user">
+        {a}
+      </div>
+     })}
       <div className="messenger">
         <div className="chatMenu">
           <div className="chatMenuWrapper">

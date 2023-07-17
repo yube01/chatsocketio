@@ -63,14 +63,9 @@ catch(error){
 // with jwt = .find({_id:{$ne: req.user._id}})
 export const allUser = async(req,res)=>{
 
-  const keyword = req.query.search ?{
-    $or:[
-      {username:{$regex: req.query.search, $options:"i"}},
-      {email:{$regex: req.query.search, $options:"i"}}
-    ]
-  }: {}
+  const keyword = req.query.search
 
-  const user = await model.find(keyword).find({_id:{$ne: req.user._id}})
+  const user = await model.find(keyword)
   res.status(200).send(user)
 
 }
