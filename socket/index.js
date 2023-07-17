@@ -1,6 +1,8 @@
 const io = require("socket.io")(8999, {
+  pingInterval:60000,
     cors: {
       origin: "http://localhost:5173",
+      methods:["GET","POST"]
     },
   });
   
@@ -32,6 +34,7 @@ const io = require("socket.io")(8999, {
     //send and get message
     socket.on("sendMessage", ({ senderId, receiverId, text }) => {
       const user = getUser(receiverId);
+      
       io.to(user.socketId).emit("getMessage", {
         senderId,
         text,

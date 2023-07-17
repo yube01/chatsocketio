@@ -5,7 +5,7 @@ import authRoute from "./routes/authRoute.js"
 import userRoute from "./routes/userRoute.js"
 import mongoose from "mongoose"
 import http from "http"
-import {Server} from "socket.io"
+
 // import chatRoute from "./routes/chatRoute.js"
 import convRoute from "./routes/conversationRoute.js"
 import msgRoute from "./routes/messageRoute.js"
@@ -37,44 +37,8 @@ app.use("/users",userRoute)
 const server = http.createServer(app)
 
 
-const io = new Server(server,{
-    pingInterval:60000,
-    cors:{
-        origin:"http://localhost:5173",
-        methods:["GET","POST"]
-    }
-})
-
-io.on("connection",(socket)=>{
-    console.log("Connected to socket.io")
 
 
-    socket.on('setup',(userData)=>{
-
-        socket.join(userData._id)
-        socket.emit('connected')
-
-    })
-
-    socket.on('join chat',(room)=>{
-        socket.join(room)
-        console.log("user joined room" + room)
-    })
-
-    socket,on('new message',(newMessageRecieved)=>{
-            var chat = newMessageRecieved.chat
-
-            if(!chat.users) return console.log("chat user not found")
-
-            chat.users.forEach((user)=>{
-                if(user._id === newMessageRecieved.sender._id)
-                return socket.in(user._id).emit("message recieved", newMessageRecieved)
-            })
-    
-        })
-
-
-})
 
 
 

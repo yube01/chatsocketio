@@ -1,5 +1,5 @@
 import axois from "axios"
-import { useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import ChatOnline from "../components/ChatOnline"
 import Conversation from "../components/Conversation"
 import Message from "../components/Message"
@@ -95,12 +95,14 @@ const Home = () => {
     const receiverId = currentChat.members.find(
       (member) => member !== user._id
     );
+    console.log(receiverId)
 
     socket.current.emit("sendMessage", {
       senderId: user._id,
       receiverId,
       text: newMsg,
     });
+
 
     try {
 
@@ -123,11 +125,15 @@ const Home = () => {
   },[msg])
 
 
+ 
+  
+
 
 
   return (
     <div>
      {/* <Topbar /> */}
+     {user.username}
       <div className="messenger">
         <div className="chatMenu">
           <div className="chatMenuWrapper">
