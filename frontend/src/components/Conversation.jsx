@@ -28,7 +28,7 @@ const Conversation = ({conv,currentUser}) => {
 
   return (
     <div className="conversation">
-      <img src="" alt="" className="conversationImg"/>
+      
       <span className="conversationName">{user.username}</span>
     </div>
   )

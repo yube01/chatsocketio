@@ -1,8 +1,9 @@
 
+import axios from "axios"
 import { useState } from "react"
 
 
-const SearchUser = () => {
+const SearchUser = ({currentUser}) => {
     const[username,setUsername] = useState("")
     const[user,setUser] = useState("")
     
@@ -35,6 +36,30 @@ const SearchUser = () => {
             
         }
     }
+
+    const handleConv = async(e)=>{
+      e.preventDefault()
+
+      const conv = {
+        senderId: currentUser._id,
+        receiverId: user._id
+      }
+      try {
+       if(conv.receiverId && conv.senderId !== null && conv.senderId  !== conv.senderId ){
+        const res = await axios.post("http://localhost:8080/auth/conv",conv)
+        console.log(res)
+        window.location.reload(true)
+       }else{
+        console.log("user created")
+       }
+        
+      } catch (error) {
+        console.log(error)
+        
+      }
+      
+      
+    }
     
 
   return (
@@ -43,8 +68,10 @@ const SearchUser = () => {
             <input type="text" name="" id="" value={username} onChange={(e)=>setUsername(e.target.value)} 
               placeholder="Username"/>
               <input type="submit" value="Search" />
+
         </form>
-      <h1>{user.username}</h1>
+        <h1>{user.username}</h1>
+        <button onClick={handleConv}>Make connection</button>
      
       
      

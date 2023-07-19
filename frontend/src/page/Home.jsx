@@ -101,7 +101,7 @@ const Home = () => {
     getUser()
 
   },[])
-  console.log(allUser)
+
 
 
 
@@ -117,7 +117,7 @@ const Home = () => {
     const receiverId = currentChat.members.find(
       (member) => member !== user._id
     );
-    console.log(receiverId)
+   
 
     socket.current.emit("sendMessage", {
       senderId: user._id,
@@ -158,7 +158,7 @@ const Home = () => {
   return (
     <div>
      {/* <Topbar /> */}
-     <SearchUser/>
+     <SearchUser currentUser = {user}/>
      {user.username}
      {allUser.map((a)=>{
       <div className="user">
@@ -168,7 +168,7 @@ const Home = () => {
       <div className="messenger">
         <div className="chatMenu">
           <div className="chatMenuWrapper">
-            <input placeholder="Search for friends" className="chatMenuInput" />
+         
            {conv.map((c)=>(
                  <div onClick={()=>setCurrentChat(c)}> 
                   <Conversation conv={c} currentUser = {user}/>

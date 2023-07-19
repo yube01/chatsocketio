@@ -25,8 +25,6 @@ router.post("/single",async(req,res)=>{
        const { password, updatedAt, ...other } = response._doc;
        return res.json(other)
     }
-       else 
-       return res.json("user not found")
 
 
         
