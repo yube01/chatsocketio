@@ -8,6 +8,7 @@ import {io} from "socket.io-client"
 
 import "./home.css"
 import axios from "axios"
+import SearchUser from "../components/SearchUser"
 
 
 
@@ -102,6 +103,8 @@ const Home = () => {
   },[])
   console.log(allUser)
 
+
+
   const handleSubmit = async(e)=>{
     e.preventDefault();
 
@@ -118,7 +121,7 @@ const Home = () => {
 
     socket.current.emit("sendMessage", {
       senderId: user._id,
-      receiverId,
+      receiverId:receiverId,
       text: newMsg,
     });
 
@@ -145,6 +148,9 @@ const Home = () => {
 
 
  
+
+
+ 
   
 
 
@@ -152,6 +158,7 @@ const Home = () => {
   return (
     <div>
      {/* <Topbar /> */}
+     <SearchUser/>
      {user.username}
      {allUser.map((a)=>{
       <div className="user">
