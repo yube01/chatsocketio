@@ -1,4 +1,4 @@
-
+import "./search.css"
 import axios from "axios"
 import { useState } from "react"
 
@@ -6,6 +6,7 @@ import { useState } from "react"
 const SearchUser = ({currentUser}) => {
     const[username,setUsername] = useState("")
     const[user,setUser] = useState("")
+    const[err,setErr] = useState("")
     
     
 
@@ -45,13 +46,15 @@ const SearchUser = ({currentUser}) => {
         receiverId: user._id
       }
       try {
-       if(conv.receiverId && conv.senderId !== null && conv.senderId  !== conv.senderId ){
+       
+       if(conv.receiverId !== conv.senderId ){
         const res = await axios.post("http://localhost:8080/auth/conv",conv)
         console.log(res)
         window.location.reload(true)
        }else{
-        console.log("user created")
+        setErr("Connection failed")
        }
+       
         
       } catch (error) {
         console.log(error)
@@ -63,15 +66,21 @@ const SearchUser = ({currentUser}) => {
     
 
   return (
-    <div>
+    <div className="search">
         <form onSubmit={handleSubmit}>
+          
             <input type="text" name="" id="" value={username} onChange={(e)=>setUsername(e.target.value)} 
               placeholder="Username"/>
-              <input type="submit" value="Search" />
+              <input type="submit" value="Search" className="ii"/>
 
         </form>
-        <h1>{user.username}</h1>
-        <button onClick={handleConv}>Make connection</button>
+        {err}
+        {
+          user?
+          <h1  className="hh">{user.username} <button onClick={handleConv} className="s1">Connect </button></h1>:
+          <h1></h1>
+        }
+        
      
       
      

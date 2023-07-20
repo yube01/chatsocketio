@@ -1,6 +1,6 @@
 import { useState } from "react"
-
-import {useNavigate} from "react-router-dom"
+import "./login.css"
+import {Link, useNavigate} from "react-router-dom"
 
 
 const Login = () => {
@@ -49,15 +49,21 @@ const Login = () => {
   }
 
   return (
-    <div>
+    <div className="login">
     <h1>Login</h1>
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleLogin} className="r1">
 
-      <input type="text" placeholder="username" value={username} onChange={(e)=>setUsername(e.target.value)} name="" id="" />
+      <input type="text" placeholder="Username" value={username} onChange={(e)=>setUsername(e.target.value)} name="" id="" />
     
-      <input type="password" placeholder="password" value={password} onChange={(e)=>setPassword(e.target.value)} name="" id="" />
-      <input type="submit" value="Login"/>
+      <input type="password" placeholder="Password" value={password} onChange={(e)=>setPassword(e.target.value)} name="" id="" />
+      <input type="submit" value="Login" className="btn"/>
         </form>
+       
+        <Link to="/register" style={{textDecoration:"none,",color:"inherit",textDecorationLine:"none"}}>
+        <h1 className="hj">Don't have a account ? Register  </h1>
+        
+        </Link>
+        
     </div>
   )
 }

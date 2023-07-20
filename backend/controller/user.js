@@ -41,7 +41,17 @@ catch(error){
 export const register = async(req,res) =>{
 
 
+
+
   try{
+
+    const username = await model.findOne({username:req.body.username})
+    if(username) return res.status(500).json("This username is already used")
+
+
+    const email  =await model.findOne({email:req.body.email})
+    if(email) return res.status(500).json("This email is already used")
+
     const salt = bcrypt.genSaltSync(10);
     // encrypting the password
     // npm add bcryptjs

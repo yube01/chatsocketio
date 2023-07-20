@@ -1,0 +1,18 @@
+.s1{
+    background-color: blue;
+    border: none;
+    padding: 0.5rem;
+    font-weight: 900;
+    cursor: pointer;
+
+}
+.hh{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.ii{
+    cursor: pointer;
+}

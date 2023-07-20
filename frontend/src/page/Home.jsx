@@ -159,7 +159,7 @@ const Home = () => {
     <div>
      {/* <Topbar /> */}
      <SearchUser currentUser = {user}/>
-     {user.username}
+     <h1>Username : {user.username}</h1>
      {allUser.map((a)=>{
       <div className="user">
         {a}
@@ -213,13 +213,13 @@ const Home = () => {
             
           </div>
         </div>
-        <div className="chatOnline">
+        {/* <div className="chatOnline">
           <div className="chatOnlineWrapper">
             <ChatOnline
              
             />
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   )
